@@ -1,0 +1,25 @@
+name: Daily Check
+on:
+  schedule:
+    - cron: '*/15 * * * *'
+jobs:
+  update-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Configure Git
+        run: |
+          git config --global user.name "huygensmax"
+          git config --global user.email "tibo.10@hotmail.fr"
+
+      - name: Make a change
+        run: |
+          echo "Mise à jour automatique du $(date)" >> daily.md
+
+      - name: Commit and Push Changes
+        run: |
+          git add daily.md
+          git commit -m "Mise à jour du $(date)"
+          git push
